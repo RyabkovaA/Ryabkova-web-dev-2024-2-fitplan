@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ training[0].training_name }}</h2> 
+        <div class="container">
+            {% for exercise in exercises %}
+            <div class="card mb-3" style="max-width: 900px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='images/' + exercise.image_name + '.png') }}" class="img-fluid rounded-start" alt="{{ exercise.exercise_name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ exercise.exercise_name }}</h5>
+                            <p class="card-text">{{ exercise.description }}</p>
+                            <div class="row">
+                                <p class="card-text col-6"><small class="text-body-bg-custom">Упражнение для замены:</small></p>
+                                <p class="col-6">{{ exercise.change_name }}</p>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="reps" class="col-sm-6 col-form-label">Количество повторений</label>
+                                <div class="col-sm-6">
+                                    <p id="reps">{{ exercise.reps }}</p>
+                                </div>
+                            </div>
+                            <input type="hidden" name="exercise_id" value="{{ exercise.exercise_id }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a class="btn bg-custom" href="{{ url_for('plans.show_training_plan', training_id=training[0].training_id, download=True)}}">Экспортировать в файл</a>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Редактирование данных профиля</h2>
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label" for="age">Возраст</label>
+        <select class="form-control" id="age" name="age" value="{{ user.age }}">
+            {% for number in range(18, 75) %}
+            <option value="{{ number }}" {% if user.age|string == number|string %} selected {% endif %}>{{ number }} лет</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="experience_years">Стаж</label>
+        <select class="form-control" id="experience_years" name="experience_years" value="{{ user.experience_years }}">
+            {% for number in range(50) %}
+            <option value="{{ number }}" {% if user.experience_years|string == number|string %} selected {% endif %}>{{ number }} лет</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="speciality">Специальность</label>
+        <input class="form-control" type="text" id="speciality" name="speciality" value="{{ user.speciality or '' }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="about_trainer">О себе</label>
+        <textarea class="form-control" id="about_trainer" name="about_trainer" rows="3" value="{{ user.about_trainer or '' }}">{{ user.about_trainer }}</textarea>
+      </div>
+    <button class="btn bg-custom">Сохранить</button>
+</form>
+
+
+{% endblock %}

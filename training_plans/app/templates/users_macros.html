@@ -1,0 +1,43 @@
+{% macro user_form(current_user, user=None, errors=None) %}
+
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label" for="last_name">Фамилия</label>
+        <input class="form-control {% if errors and errors.get('last_name') %}is-invalid{% endif %}" type="text" id="last_name" name="last_name" value="{{ user.last_name or '' }}">
+        {% if errors and errors.get('last_name') %}
+        <div class="invalid-feedback">{{ errors['last_name'] }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="first_name">Имя</label>
+        <input class="form-control {% if errors and errors.get('first_name') %}is-invalid{% endif %}" type="text" id="first_name" name="first_name" value="{{ user.first_name or '' }}">
+        {% if errors and errors.get('first_name') %}
+        <div class="invalid-feedback">{{ errors['first_name'] }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="middle_name">Отчество</label>
+        <input class="form-control {% if errors and errors.get('middle_name') %}is-invalid{% endif %}" type="text" id="middle_name" name="middle_name" value="{{ user.middle_name or '' }}">
+        {% if errors and errors.get('middle_name') %}
+        <div class="invalid-feedback">{{ errors['middle_name'] }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="email">Адрес электронной почты</label>
+        <input class="form-control {% if errors and errors.get('email') %}is-invalid{% endif %}" type="text" id="email" name="email" value="{{ user.email or '' }}">
+        {% if errors and errors.get('email') %}
+        <div class="invalid-feedback">{{ errors['email'] }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="phone">Номер телефона</label>
+        <input class="form-control {% if errors and errors.get('phone') %}is-invalid{% endif %}" type="text" id="phone" name="phone" value="{{ user.phone or '' }}">
+        {% if errors and errors.get('phone') %}
+        <div class="invalid-feedback">{{ errors['phone'] }}</div>
+        {% endif %}
+    </div>
+    <button class="btn bg-custom">Сохранить</button>
+</form>
+
+{% endmacro %}

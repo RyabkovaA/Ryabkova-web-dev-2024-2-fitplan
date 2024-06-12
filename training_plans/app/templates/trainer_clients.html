@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <p><b>Клиенты:</b></p>
+            {% if clients %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>ФИО</th>
+                        <th>Профиль</th>
+                        <th>Посмотреть планы</th>
+                        <th>Создать план</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ client.full_name }}</td>
+                        <td>
+                            <a class="btn bg-custom" href="{{ url_for('client.show', user_id=client.user_id) }}">Смотреть профиль</a>
+                        </td>
+                        <td>
+                            <a class="btn bg-custom" href="{{ url_for('plans.show_plans', user_id=client.user_id) }}">Смотреть планы</a>
+                        </td>
+                        <td>
+                            <a class="btn bg-custom" href="{{ url_for('plans.create_plan', client_id=client.client_id, trainer_id=user.trainer_id) }}">Создать план</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>Пока нет клиентов</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

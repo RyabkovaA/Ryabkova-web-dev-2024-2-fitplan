@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Создание плана тренировки</h2> 
+    <div class="container">
+        <form method="post" action="{{ url_for('plans.create_plan', trainer_id=trainer_id, client_id=client_id)}}">
+            <div class="my-3">
+                <label class="form-label" for="name">Название тренировки</label>
+                <input class="form-control" type="text" id="name" name="name" value="{{ training_name or ''}}">
+            </div>
+            <h3>Добавленные упражнения</h3>
+            {% for exercise in added_exercises %}
+            <div class="card mb-3" style="max-width: 900px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='images/' + exercise.image_name + '.png') }}" class="img-fluid rounded-start" alt="{{ exercise.exercise_name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ exercise.exercise_name }}</h5>
+                            <p class="card-text">{{ exercise.description }}</p>
+                            <div class="row">
+                                <p class="card-text col-6"><small class="text-body-bg-custom">Упражнение для замены:</small></p>
+                                <p class="col-6">{{ exercise.change_name }}</p>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="repetitions" class="col-sm-6 col-form-label">Количество повторений</label>
+                                <div class="col-sm-6">
+                                    <p>{{ exercise.reps }}</p>
+                                </div>
+                                  <a class="btn bg-custom col-3" href="{{ url_for('plans.remove_exercise', trainer_id=trainer_id, client_id=client_id, exercise_id=exercise.exercise_id) }}">Удалить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="mb-3">
+                <a class="btn bg-custom" href="{{ url_for('plans.add_exercise_page', trainer_id=trainer_id, client_id=client_id) }}">Добавить упражнение</a>
+            </div>
+            <button type="submit" class="btn bg-custom">Сохранить</button>
+        </form>
+    </div>
+{% endblock %}

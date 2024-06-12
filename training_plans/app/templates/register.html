@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Регистрация </h2>
+        
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label" for="login">Логин</label>
+            <input class="form-control {% if errors and errors.get('login') %}is-invalid{% endif %}" type="text" id="login" name="login" value="{{ user.login or '' }}">
+            {% if errors and errors.get('login') %}
+            <div class="invalid-feedback">{{ errors['login'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="password">Пароль</label>
+            <input class="form-control {% if errors and errors.get('password') %}is-invalid{% endif %}" type="password" id="password" name="password">
+            {% if errors and errors.get('password') %}
+            <div class="invalid-feedback">{{ errors['password'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="email">Адрес электронной почты</label>
+            <input class="form-control {% if errors and errors.get('email') %}is-invalid{% endif %}" type="text" id="email" name="email" value="{{ user.email or '' }}">
+            {% if errors and errors.get('email') %}
+            <div class="invalid-feedback">{{ errors['email'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="phone">Номер телефона</label>
+            <input class="form-control {% if errors and errors.get('phone') %}is-invalid{% endif %}" type="text" id="phone" name="phone" value="{{ user.phone or '+7' }}">
+            {% if errors and errors.get('phone') %}
+            <div class="invalid-feedback">{{ errors['phone'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="last_name">Фамилия</label>
+            <input class="form-control {% if errors and errors.get('last_name') %}is-invalid{% endif %}" type="text" id="last_name" name="last_name" value="{{ user.last_name or '' }}">
+            {% if errors and errors.get('last_name') %}
+            <div class="invalid-feedback">{{ errors['last_name'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="first_name">Имя</label>
+            <input class="form-control {% if errors and errors.get('first_name') %}is-invalid{% endif %}" type="text" id="first_name" name="first_name" value="{{ user.first_name or '' }}">
+            {% if errors and errors.get('first_name') %}
+            <div class="invalid-feedback">{{ errors['first_name'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="middle_name">Отчество</label>
+            <input class="form-control {% if errors and errors.get('middle_name') %}is-invalid{% endif %}" type="text" id="middle_name" name="middle_name" value="{{ user.middle_name or '' }}">
+            {% if errors and errors.get('middle_name') %}
+            <div class="invalid-feedback">{{ errors['middle_name'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="role_id">Роль</label>
+            <select class="form-select {% if errors and errors.get('role_id') %}is-invalid{% endif %}" id="role_id" name="role_id">
+                {% for role in roles %}
+                    <option value="{{ role.role_id }}" {% if user.role_id|string == role.role_id|string %} selected {% endif %}>{{ role.role_name }}</option>
+                {% endfor %}
+            </select>
+            {% if errors and errors.get('role_id') %}
+            <div class="invalid-feedback">{{ errors['role_id'] }}</div>
+            {% endif %}
+        </div>
+        <button class="btn bg-custom">Зарегистрироваться</button>
+    </form>
+
+{% endblock %}

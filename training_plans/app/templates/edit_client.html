@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Редактирование данных профиля</h2>
+<form method="post">
+    <div class="my-3">
+        <label class="form-label" for="height">Рост</label>
+        <div class="row">
+            <input class="form-control col" type="text" id="height" name="height" value="{{ user.height or '' }}">
+            <p class="col">см</p>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="weight">Вес</label>
+        <div class="row">
+            <input class="form-control col" type="text" id="weight" name="weight" value="{{ user.weight or '' }}">
+            <p class="col">кг</p>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="age">Возраст</label>
+        <select class="form-control" id="age" name="age" value="{{ user.age }}">
+            {% for number in range(18, 75) %}
+            <option value="{{ number }}" {% if user.age|string == number|string %} selected {% endif %}>{{ number }} лет</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="about_client">О себе</label>
+        <textarea class="form-control" id="about_client" name="about_client" rows="3" value="{{ user.about_client or '' }}">{{ user.about_client }}</textarea>
+      </div>
+    <div class="mb-3">
+        <label class="form-label" for="trainer_id">Тренер</label>
+        <select class="form-select" id="trainer_id" name="trainer_id">
+            <option value="" {% if not user.trainer_id %} selected {% endif %}>Не выбрано</option>
+            {% for trainer in trainers %}
+                <option value="{{ trainer.trainer_id }}" {% if user.trainer_id|string == trainer.trainer_id|string %} selected {% endif %}>{{ trainer.full_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button class="btn bg-custom">Сохранить</button>
+</form>
+
+
+{% endblock %}

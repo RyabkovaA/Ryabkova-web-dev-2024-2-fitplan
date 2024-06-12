@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <p><b>Планы тренировок:</b></p>
+            {% if plans %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Название</th>
+                        <th>Просмотр</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plan in plans %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ plan.training_name }}</td>
+                        <td>
+                            <a class="btn bg-custom" href="{{ url_for('plans.show_training_plan', training_id=plan.training_id)}}">Смотреть план</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>Пока нет планов</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

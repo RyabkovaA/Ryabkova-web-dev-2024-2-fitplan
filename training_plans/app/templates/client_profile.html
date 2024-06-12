@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-3">
+        <h2 class="col-9">{{ personal_data.full_name }}</h2>
+        <h4 class="col py-2">{{ user.role_name }}</h4>
+    </div>
+    <div class="row mb-3">
+        <div class="col-6">
+            <p><b>Контактные данные</b></p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Номер телефона</th>
+                        <th>Адрес электронной почты</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ personal_data.phone }}</td>
+                        <td>{{ personal_data.email }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% if current_user.can('edit', user) %}
+            <a class="btn bg-custom" href="{{ url_for('users.edit', user_id=current_user.id) }}">Изменить</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-6">
+            <p><b>Параметры</b></p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Рост</th>
+                        <th>Вес</th>
+                        <th>Возраст</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ client_info.height or ''}} </td>
+                        <td>{{ client_info.weight or ''}}</td>
+                        <td>{{ client_info.age or ''}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <p><b>О себе</b></p>
+            <p class="about-bg">{{ client_info.about_client or '' }}</p>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <h4 class="col-9">Тренер: {{ trainer.full_name or ' не выбран'}}</h4>
+            {% if not  current_user.is_trainer() %}
+            <div class="col">
+            <a class="btn bg-custom {%if not trainer %} disabled {% endif %}" href="{% if trainer %} {{ url_for('trainer.show', user_id=trainer.user_id ) }} {%endif%}">Посмотреть профиль</a>
+            {% endif %}
+        </div>
+    </div>
+    {% if current_user.can('edit', user) %}
+    <div class="row mb-3">
+        <div class="col">
+            <a class="btn bg-custom" href="{{ url_for('client.edit', user_id=current_user.id) }}">Изменить</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Добавить упражнение</h2> 
+    <div class="container">
+        <h3>Выберите упражнения</h3>
+        {% for exercise in exercises %}
+        {% if exercise.exercise_id not in added_exercises|map(attribute='exercise_id') %}
+        <div class="card mb-3" style="max-width: 900px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ url_for('static', filename='images/' + exercise.image_name + '.png') }}" class="img-fluid rounded-start" alt="{{ exercise.exercise_name }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ exercise.exercise_name }}</h5>
+                        <p class="card-text">{{ exercise.description }}</p>
+                        <div class="row">
+                            <p class="card-text col-6"><small class="text-body-bg-custom">Упражнение для замены:</small></p>
+                            <p class="col-6">{{ exercise.change_name }}</p>
+                        </div>
+                        <form method="post" action="{{ url_for('plans.add_exercise', trainer_id=trainer_id, client_id=client_id, exercise_id=exercise.exercise_id) }}">
+                            <div class="row mb-3">
+                                <label for="reps" class="col-sm-6 col-form-label">Количество повторений</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="reps" name="reps" placeholder="Введите число">
+                                </div>
+                            </div>
+                            <input type="hidden" name="exercise_id" value="{{ exercise.exercise_id }}">
+                            <button type="submit" class="btn bg-custom">Добавить упражнение</button>
+                        </form>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
