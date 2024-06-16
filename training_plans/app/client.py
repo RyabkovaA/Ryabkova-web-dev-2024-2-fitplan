@@ -22,7 +22,6 @@ def show(user_id):
         with db_connector.connect().cursor(named_tuple=True) as cursor:
             cursor.execute(query, (user_id, ))
             user = cursor.fetchone()
-            # print(user)
 
             query2 = ("SELECT CONCAT(personal_data.last_name, ' ', "
                     "personal_data.first_name, ' ', "
@@ -32,14 +31,12 @@ def show(user_id):
 
             cursor.execute(query2, (user_id, ))
             personal_data = cursor.fetchone()
-            # print(personal_data)
 
             query3 = ("SELECT * FROM clients WHERE clients.user_id=%s")
             cursor.execute(query3, (user_id, ))
             client_info = cursor.fetchone()
             trainer_id = client_info.trainer_id
             trainer = get_trainer(trainer_id)
-            # print(trainer)
 
         
     except DatabaseError as error:
@@ -58,7 +55,6 @@ def get_trainer(trainer_id):
     with db_connector.connect().cursor(named_tuple=True) as cursor:
             cursor.execute(query, (trainer_id, ))
             trainer = cursor.fetchone()
-            # print("got trainer", trainer)
     return trainer
     
 def get_trainers():        
@@ -85,7 +81,6 @@ def is_valid_weight(weight):
 @can_user('edit')
 def edit(user_id):
     trainers=get_trainers()
-    # print("Тренеры", trainers)
     query = "SELECT * FROM clients WHERE user_id=%s"
     with db_connector.connect().cursor(named_tuple=True) as cursor:
         cursor.execute(query, (user_id, ))
@@ -100,15 +95,12 @@ def edit(user_id):
         columns = ','.join([f'{key}=%({key})s' for key in user])
         user['user_id'] = user_id
         user['trainer_id'] = int(user['trainer_id']) if user['trainer_id'] else None
-        # print("Данные для обновления", columns)
-        # print("user:", user)
 
         query = (f"UPDATE clients SET {columns} WHERE clients.user_id=%(user_id)s ")
 
         try:
             with db_connector.connect().cursor(named_tuple=True) as cursor:
                 cursor.execute(query, user)
-                # print("Запрос на обновление бд", cursor.statement)
                 db_connector.connect().commit()
             
             flash("Запись пользователя успешно обновлена", category="success")
@@ -116,6 +108,5 @@ def edit(user_id):
         except DatabaseError as error:
             flash(f'Ошибка редактирования пользователя! {error}', category="danger")
             db_connector.connect().rollback()    
-
     return render_template("edit_client.html", user=user, trainers=trainers)
 

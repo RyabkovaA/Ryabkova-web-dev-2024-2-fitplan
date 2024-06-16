@@ -19,7 +19,6 @@ def get_clients(trainer_id):
     with db_connector.connect().cursor(named_tuple=True) as cursor:
             cursor.execute(query, (trainer_id, ))
             clients = cursor.fetchall()
-            # print("got clients", clients)
     return clients
 
 @bp.route('/<int:user_id>/show', methods=["GET","POST"])
@@ -68,7 +67,6 @@ def edit(user_id):
     print(user)
     if request.method == "POST":
         user = get_form_data(EDIT_TRAINER_FIELDS)
-        # print(user)
 
         columns = ','.join([f'{key}=%({key})s' for key in user])
         user['user_id'] = user_id
@@ -78,7 +76,6 @@ def edit(user_id):
         try:
             with db_connector.connect().cursor(named_tuple=True) as cursor:
                 cursor.execute(query, user)
-                # print(cursor.statement)
                 db_connector.connect().commit()
             
             flash("Запись пользователя успешно обновлена", category="success")

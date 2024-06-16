@@ -18,16 +18,16 @@
         </div>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="age">Возраст</label>
+        <label class="form-label" for="age">Возраст (лет)</label>
         <select class="form-control" id="age" name="age" value="{{ user.age }}">
             {% for number in range(18, 75) %}
-            <option value="{{ number }}" {% if user.age|string == number|string %} selected {% endif %}>{{ number }} лет</option>
+            <option value="{{ number }}" {% if user.age|string == number|string %} selected {% endif %}>{{ number }}</option>
             {% endfor %}
         </select>
     </div>
     <div class="mb-3">
         <label class="form-label" for="about_client">О себе</label>
-        <textarea class="form-control" id="about_client" name="about_client" rows="3" value="{{ user.about_client or '' }}">{{ user.about_client }}</textarea>
+        <textarea class="form-control" id="about_client" name="about_client" rows="3" value="{{ user.about_client or '' }}">{{ user.about_client or '' }}</textarea>
       </div>
     <div class="mb-3">
         <label class="form-label" for="trainer_id">Тренер</label>
