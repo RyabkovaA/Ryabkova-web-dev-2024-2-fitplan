@@ -13,18 +13,30 @@ pipeline {
             }
         }
 
-        stage('Build Docker image') {
+        stage('Build Docker images') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
+                sh 'docker-compose build'
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Run Containers') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+
+        stage('Push Docker image') {
             steps {
                 sh '''
                     echo "$CREDS_PSW" | docker login -u "$CREDS_USR" --password-stdin
                     docker push $DOCKER_IMAGE
                 '''
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                sh 'docker-compose down'
             }
         }
     }
