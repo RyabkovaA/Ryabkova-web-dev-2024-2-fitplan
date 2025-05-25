@@ -13,6 +13,12 @@ pipeline {
             }
         }
 
+        stage('Test Docker') {
+            steps {
+                sh 'docker --version'
+            }
+        }
+
         stage('Build Docker images') {
             steps {
                 sh 'docker-compose build'
