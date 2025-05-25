@@ -6,15 +6,13 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - FLASK_APP=app/app.py
-      - FLASK_DEBUG=1
-      - FLASK_RUN_HOST=0.0.0.0
-      - MYSQL_HOST=db
-      - MYSQL_USER=flask_user
-      - MYSQL_PASSWORD=flask_password
-      - MYSQL_DB=flask_db
-    volumes:
-      - .:/app
+      FLASK_APP: app/app.py
+      FLASK_DEBUG: "1"
+      FLASK_RUN_HOST: 0.0.0.0
+      MYSQL_HOST: db
+      MYSQL_USER: flask_user
+      MYSQL_PASSWORD: flask_password
+      MYSQL_DB: flask_db
     depends_on:
       - db
     restart: always
@@ -24,10 +22,10 @@ services:
     ports:
       - "3308:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=flask_db
-      - MYSQL_USER=flask_user
-      - MYSQL_PASSWORD=flask_password
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: flask_db
+      MYSQL_USER: flask_user
+      MYSQL_PASSWORD: flask_password
     volumes:
       - mysql_data:/var/lib/mysql
       - ./std-mysql.sql:/docker-entrypoint-initdb.d/init.sql
