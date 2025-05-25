@@ -2,47 +2,41 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'fawnyler00/devops_app:latest'
-        CREDS = credentials('dockerhub-creds')
+        IMAGE_NAME = "fawnyler00/devops_app"
+        IMAGE_TAG = "latest"
+        DOCKER_CREDENTIALS_ID = "dockerhub-creds" // ID учётных данных в Jenkins
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/RyabkovaA/Ryabkova-web-dev-2024-2-fitplan.git'
+                checkout scm
             }
         }
 
-        stage('Test Docker') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker --version'
+                script {
+                    dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
             }
         }
 
-        stage('Build Docker images') {
+        stage('Push to Docker Hub') {
             steps {
-                sh 'docker-compose build'
-            }
-        }
-
-        stage('Run Containers') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-
-        stage('Push Docker image') {
-            steps {
-                sh '''
-                    echo "$CREDS_PSW" | docker login -u "$CREDS_USR" --password-stdin
-                    docker push $DOCKER_IMAGE
-                '''
+                script {
+                    docker.withRegistry('', "${DOCKER_CREDENTIALS_ID}") {
+                        dockerImage.push()
+                    }
+                }
             }
         }
 
         stage('Cleanup') {
             steps {
-                sh 'docker-compose down'
+                script {
+                    dockerImage.remove()
+                }
             }
         }
     }
